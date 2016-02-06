@@ -1,6 +1,6 @@
 ﻿namespace plant_vs_zombie_test
 {
-    public class PeaShooter
+    internal class PeaShooter
     {
         public static int COST = 100;
         public static int SHOT_PERIODICITY = 2;
