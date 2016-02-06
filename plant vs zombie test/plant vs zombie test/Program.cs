@@ -14,6 +14,8 @@ namespace plant_vs_zombie_test
         public int INITIAL_SUNS = 50;
         private int suns;
         private ArrayList sunflowers;
+        private ArrayList peaShooters;
+        private ArrayList peas;
 
         public Garden()
         {
@@ -37,6 +39,15 @@ namespace plant_vs_zombie_test
             sunflowers.Add(sf);
         }
 
+        public void addPea(Pea p)
+        {
+            peas.Add(p);
+        }
+
+        public void addPeaShooter(PeaShooter ps)
+        {
+            peaShooters.Add(ps);
+        }
         public void increment()
         {
             foreach (Sunflower sf in sunflowers)
@@ -63,7 +74,6 @@ namespace plant_vs_zombie_test
                 }
                 s += "\n";
             }
-            s += "suns = " + suns + "\n";
             return s;
         }
 
