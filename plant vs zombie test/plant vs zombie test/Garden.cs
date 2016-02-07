@@ -156,10 +156,18 @@ namespace plant_vs_zombie_test
                 Console.WriteLine("\"s x y\" to add a sunflower, \"p x y\" to add a peashooter, \"q\" to quit, or just" +
                                    "hit enter to pass your turn");
                 String input = Console.ReadLine();
-                String[] input1 = Regex.Split(input, " ");
+                String[] input1 = input.Split(' ');
                 switch (input1[0])
                 {
-                    case "q": break;
+                    case "q":
+                        break;
+                    case "s":
+                        Sunflower sf = new Sunflower(this, Int32.Parse(input1[1]), Int32.Parse(input1[2]));
+                        break;
+                    case "p":
+
+                        break;
+
                 }
             }
         }
@@ -167,7 +175,7 @@ namespace plant_vs_zombie_test
         {
             String line;
             line = Console.ReadLine();
-            String[] a = Regex.Split(line, " ");
+            String[] a = line.Split(' ');
 
             Console.WriteLine(a[0]);
             Console.WriteLine(a[1]);
