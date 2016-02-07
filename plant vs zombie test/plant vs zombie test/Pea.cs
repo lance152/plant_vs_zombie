@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace plant_vs_zombie_test
 {
-    class Pea
+    internal class Pea
     {
         private Garden garden;
         private int x, y;

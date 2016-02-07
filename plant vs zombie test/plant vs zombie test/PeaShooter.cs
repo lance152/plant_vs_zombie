@@ -13,6 +13,7 @@
             garden = g;
             this.x = x;
             this.y = y;
+            positionInShotCycle = 0;
             garden.addPeaShooter(this);
         }
 
@@ -26,6 +27,20 @@
             return this.y;
         }
 
+        private void shoot()
+        {
+            Pea p = new Pea(garden, x + 1, y);
+            garden.addPea(p);
+        }
 
+        public void increment()
+        {
+            positionInShotCycle++;
+            if(positionInShotCycle%SHOT_PERIODICITY == 0)
+            {
+                this.shoot();
+                positionInShotCycle = 0;
+            }
+        }
     }
 }
