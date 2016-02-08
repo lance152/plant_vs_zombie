@@ -22,6 +22,8 @@ namespace plant_vs_zombie_test
         {
             suns = INITIAL_SUNS;
             sunflowers = new ArrayList();
+            peaShooters = new ArrayList();
+            peas = new ArrayList();
 
         }
 
@@ -132,7 +134,7 @@ namespace plant_vs_zombie_test
 
         private bool hasPeaAt(int x, int y)
         {
-            foreach (Pea p in peaShooters)
+            foreach (Pea p in peas)
             {
                 if (p.getX() == x && p.getY() == y)
                 {
@@ -151,40 +153,33 @@ namespace plant_vs_zombie_test
             for (;;)
             {
                 this.print();
-                Console.Write("You have: " + suns + " suns. Enter your next move:");
+                Console.Write("You have: " + suns + " suns. Enter your next move: \n");
                 Console.WriteLine("A Sunflower costs: " + Sunflower.COST + ", and a Pea Shooter costs: " + PeaShooter.COST);
                 Console.WriteLine("\"s x y\" to add a sunflower, \"p x y\" to add a peashooter, \"q\" to quit, or just" +
                                    "hit enter to pass your turn");
                 String input = Console.ReadLine();
                 String[] input1 = input.Split(' ');
-                if (input1[0] == "q")
-                {
-                    break;
-                }
                 switch (input1[0])
                 {
                     case "q":
-                        break;
+                        Console.WriteLine("Bye");
+                        return;
                     case "s":
                         Sunflower sf = new Sunflower(this, Int32.Parse(input1[1]), Int32.Parse(input1[2]));
                         break;
                     case "p":
                         PeaShooter ps = new PeaShooter(this, Int32.Parse(input1[1]), Int32.Parse(input1[2]));
                         break;
-                    
+                    default:
+                        break;
                 }
+                this.increment();
             }
-            Console.WriteLine("Bye");
         }
         static void Main(string[] args)
         {
-            String line;
-            line = Console.ReadLine();
-            String[] a = line.Split(' ');
-
-            Console.WriteLine(a[0]);
-            Console.WriteLine(a[1]);
-            Console.WriteLine(a[2]);
+            Garden g = new Garden();
+            g.play();
         }
     }
 }
