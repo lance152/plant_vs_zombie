@@ -10,12 +10,12 @@ namespace plant_vs_zombie_test
     {
         private Garden garden;
         private int x, y;
+
         public Pea(Garden g, int x, int y)
         {
             garden = g;
             this.x = x;
             this.y = y;
-            garden.addPea(this);
         }
 
         public int getX()
@@ -30,7 +30,7 @@ namespace plant_vs_zombie_test
 
         public void increment()
         {
-            x++;
+            x ++;
         }
     }
 }

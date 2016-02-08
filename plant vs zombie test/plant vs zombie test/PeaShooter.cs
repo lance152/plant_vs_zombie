@@ -14,32 +14,30 @@
             this.x = x;
             this.y = y;
             positionInShotCycle = 0;
-            garden.addPeaShooter(this);
         }
 
         public int getX()
         {
-            return this.x;
+            return x;
         }
 
         public int getY()
         {
-            return this.y;
+            return y;
         }
 
         private void shoot()
         {
-            Pea p = new Pea(garden, x + 1, y);
+            Pea p = new Pea(garden, x+1, y);
             garden.addPea(p);
         }
 
         public void increment()
         {
-            positionInShotCycle++;
-            if(positionInShotCycle%SHOT_PERIODICITY == 0)
+            positionInShotCycle = (positionInShotCycle + 1) % SHOT_PERIODICITY;
+            if(positionInShotCycle == 0)
             {
                 this.shoot();
-                positionInShotCycle = 0;
             }
         }
     }

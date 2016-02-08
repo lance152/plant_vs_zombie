@@ -15,7 +15,6 @@
             this.x = x;
             this.y = y;
             positionInCYcle = 0;
-            g.addSunflower(this);
         }
 
         public int getX()

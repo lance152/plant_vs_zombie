@@ -12,7 +12,7 @@ namespace plant_vs_zombie_test
     {
         public int GARDEN_LENGTH = 6;
         public int GARDEN_WIDTH = 3;
-        public int INITIAL_SUNS = 50;
+        public int INITIAL_SUNS = 500;
         private int suns;
         private ArrayList sunflowers;
         private ArrayList peaShooters;
@@ -39,7 +39,11 @@ namespace plant_vs_zombie_test
 
         public void addSunflower(Sunflower sf)
         {
-            sunflowers.Add(sf);
+            if (suns - Sunflower.COST >= 0 && !(hasSunflowerAt(sf.getX(), sf.getY())) && !(hasPeaShooterAt(sf.getX(), sf.getY())))
+            {
+                sunflowers.Add(sf);
+                this.subtractSuns(Sunflower.COST);
+            }
         }
 
         public void addPea(Pea p)
@@ -49,18 +53,25 @@ namespace plant_vs_zombie_test
 
         public void addPeaShooter(PeaShooter ps)
         {
-            peaShooters.Add(ps);
+            if (suns - PeaShooter.COST >= 0 && !(hasSunflowerAt(ps.getX(),ps.getY())) && !(hasPeaShooterAt(ps.getX(), ps.getY())))
+            {
+                peaShooters.Add(ps);
+                this.subtractSuns(PeaShooter.COST);
+            }
         }
+
         public void increment()
         {
             foreach (Sunflower sf in sunflowers)
             {
                 sf.increment();
             }
+
             foreach (Pea p in peas)
             {
                 p.increment();
             }
+
             foreach (PeaShooter ps in peaShooters)
             {
                 ps.increment();
@@ -108,10 +119,6 @@ namespace plant_vs_zombie_test
                 {
                     return true;
                 }
-                else
-                {
-                    break;
-                }
             }
             return false;
         }
@@ -124,10 +131,6 @@ namespace plant_vs_zombie_test
                 {
                     return true;
                 }
-                else
-                {
-                    break;
-                }
             }
             return false;
         }
@@ -139,10 +142,6 @@ namespace plant_vs_zombie_test
                 if (p.getX() == x && p.getY() == y)
                 {
                     return true;
-                }
-                else
-                {
-                    break;
                 }
             }
             return false;
@@ -157,25 +156,27 @@ namespace plant_vs_zombie_test
                 Console.WriteLine("A Sunflower costs: " + Sunflower.COST + ", and a Pea Shooter costs: " + PeaShooter.COST);
                 Console.WriteLine("\"s x y\" to add a sunflower, \"p x y\" to add a peashooter, \"q\" to quit, or just" +
                                    "hit enter to pass your turn");
-                String input = Console.ReadLine();
-                String[] input1 = input.Split(' ');
-                switch (input1[0])
+                String[] input = Console.ReadLine().Split(' ');
+                switch (input[0])
                 {
                     case "q":
                         Console.WriteLine("Bye");
+                        System.Threading.Thread.Sleep(1000);
                         return;
                     case "s":
-                        Sunflower sf = new Sunflower(this, Int32.Parse(input1[1]), Int32.Parse(input1[2]));
+                        this.addSunflower( new Sunflower(this, Int32.Parse(input[1]), Int32.Parse(input[2])));
                         break;
                     case "p":
-                        PeaShooter ps = new PeaShooter(this, Int32.Parse(input1[1]), Int32.Parse(input1[2]));
+                        this.addPeaShooter(new PeaShooter(this, Int32.Parse(input[1]), Int32.Parse(input[2])));
                         break;
                     default:
+                            Console.WriteLine(peas.Count);
                         break;
                 }
                 this.increment();
             }
         }
+
         static void Main(string[] args)
         {
             Garden g = new Garden();
