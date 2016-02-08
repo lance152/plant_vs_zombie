@@ -152,11 +152,15 @@ namespace plant_vs_zombie_test
             {
                 this.print();
                 Console.Write("You have: " + suns + " suns. Enter your next move:");
-                Console.WriteLine("A Sunflower costs: 50, and a Pea Shooter costs: 100");
+                Console.WriteLine("A Sunflower costs: " + Sunflower.COST + ", and a Pea Shooter costs: " + PeaShooter.COST);
                 Console.WriteLine("\"s x y\" to add a sunflower, \"p x y\" to add a peashooter, \"q\" to quit, or just" +
                                    "hit enter to pass your turn");
                 String input = Console.ReadLine();
                 String[] input1 = input.Split(' ');
+                if (input1[0] == "q")
+                {
+                    break;
+                }
                 switch (input1[0])
                 {
                     case "q":
@@ -165,11 +169,12 @@ namespace plant_vs_zombie_test
                         Sunflower sf = new Sunflower(this, Int32.Parse(input1[1]), Int32.Parse(input1[2]));
                         break;
                     case "p":
-
+                        PeaShooter ps = new PeaShooter(this, Int32.Parse(input1[1]), Int32.Parse(input1[2]));
                         break;
-
+                    
                 }
             }
+            Console.WriteLine("Bye");
         }
         static void Main(string[] args)
         {

@@ -2,8 +2,8 @@
 {
     internal class Sunflower
     {
-        public int COST = 50;
-        public int YIELD = 20;
+        public static int COST = 50;
+        public static int YIELD = 20;
         public int PRODUCTION_CYCLE = 3;
         private Garden garden;
         private int positionInCYcle;
