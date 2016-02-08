@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace plant_vs_zombie_test
 {
-    internal class Pea
+    internal class Pea : GardenItem
     {
-        private Garden garden;
-        private int x, y;
 
         public Pea(Garden g, int x, int y)
         {
@@ -18,19 +16,9 @@ namespace plant_vs_zombie_test
             this.y = y;
         }
 
-        public int getX()
-        {
-            return this.x;
-        }
-
-        public int getY()
-        {
-            return this.y;
-        }
-
         public void increment()
         {
-            x ++;
+            x++;
         }
     }
 }
