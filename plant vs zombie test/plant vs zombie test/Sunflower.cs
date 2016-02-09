@@ -1,45 +1,39 @@
 ﻿namespace plant_vs_zombie_test
 {
-    internal class Sunflower
+    class Sunflower:Plant
     {
-        public static int COST = 50;
+        public static new int COST = 50;
         public static int YIELD = 20;
         public int PRODUCTION_CYCLE = 3;
-        private Garden garden;
         private int positionInCYcle;
-        private int x, y;
 
-        public Sunflower(Garden g, int x, int y)
+        public Sunflower(Garden g, int x, int y):base(g,x,y)
         {
-            garden = g;
-            this.x = x;
-            this.y = y;
-            positionInCYcle = 0;
         }
 
-        public int getX()
-        {
-            return x;
-        }
-
-        public int getY()
-        {
-            return y;
-        }
-
-        public void increment()
+        public override void increment()
         {
             positionInCYcle++;
-            if(positionInCYcle % 3 == 0)
+            if (positionInCYcle % 3 == 0)
             {
                 this.produceSuns();
                 positionInCYcle = 0;
             }
         }
 
-        private void produceSuns()
+        public void produceSuns()
         {
             garden.addSuns(YIELD);
+        }
+
+        public override int getCost()
+        {
+            return COST;
+        }
+
+        public override string ToString()
+        {
+            return "S";
         }
     }
 }

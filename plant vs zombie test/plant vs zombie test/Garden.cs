@@ -14,15 +14,13 @@ namespace plant_vs_zombie_test
         public int GARDEN_WIDTH = 3;
         public int INITIAL_SUNS = 500;
         private int suns;
-        private ArrayList sunflowers;
-        private ArrayList peaShooters;
+        private ArrayList plants;
         private ArrayList peas;
 
         public Garden()
         {
             suns = INITIAL_SUNS;
-            sunflowers = new ArrayList();
-            peaShooters = new ArrayList();
+            plants = new ArrayList();
             peas = new ArrayList();
 
         }
@@ -37,12 +35,12 @@ namespace plant_vs_zombie_test
             this.suns -= suns;
         }
 
-        public void addSunflower(Sunflower sf)
+        public void addPlant(Plant pl)
         {
-            if (suns - Sunflower.COST >= 0 && !(hasSunflowerAt(sf.getX(), sf.getY())) && !(hasPeaShooterAt(sf.getX(), sf.getY())))
+            if (suns - pl.getCost() >= 0 && !(hasPlantAt(pl.getX(), pl.getY())))
             {
-                sunflowers.Add(sf);
-                this.subtractSuns(Sunflower.COST);
+                plants.Add(pl);
+                this.subtractSuns(pl.getCost());
             }
         }
 
@@ -51,31 +49,30 @@ namespace plant_vs_zombie_test
             peas.Add(p);
         }
 
-        public void addPeaShooter(PeaShooter ps)
-        {
-            if (suns - PeaShooter.COST >= 0 && !(hasSunflowerAt(ps.getX(),ps.getY())) && !(hasPeaShooterAt(ps.getX(), ps.getY())))
-            {
-                peaShooters.Add(ps);
-                this.subtractSuns(PeaShooter.COST);
-            }
-        }
-
         public void increment()
         {
-            foreach (Sunflower sf in sunflowers)
-            {
-                sf.increment();
-            }
 
             foreach (Pea p in peas)
             {
                 p.increment();
             }
 
-            foreach (PeaShooter ps in peaShooters)
+            foreach (Plant pl in plants)
             {
-                ps.increment();
+                pl.increment();
             }
+        }
+
+        public Plant getPlantAt(int x, int y)
+        {
+            foreach(Plant pl in plants)
+            {
+                if(pl.getX() == x && pl.getY() == y)
+                {
+                    return pl;
+                }
+            }
+            return null;
         }
 
         public String toString()
@@ -85,13 +82,10 @@ namespace plant_vs_zombie_test
             {
                 for (int b = 0; b < GARDEN_LENGTH; b++)
                 {
-                    if (hasSunflowerAt(b,a))
+                    if (hasPlantAt(b,a))
                     {
-                        s += "S";
-                    }
-                    else if (hasPeaShooterAt(b,a))
-                    {
-                        s += "P";
+                        Plant pl = getPlantAt(b, a);
+                        s += pl.ToString();
                     }else if (hasPeaAt(b, a))
                     {
                         s += "o";
@@ -111,23 +105,11 @@ namespace plant_vs_zombie_test
             Console.Write(this.toString());
         }
 
-        private bool hasSunflowerAt(int x, int y)
+        private bool hasPlantAt(int x, int y)
         {
-            foreach (Sunflower sf in sunflowers)
+            foreach (Plant pl in plants)
             {
-                if (sf.getX() == x && sf.getY() == y)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private bool hasPeaShooterAt(int x, int y)
-        {
-            foreach (PeaShooter ps in peaShooters)
-            {
-                if (ps.getX() == x && ps.getY() == y)
+                if (pl.getX() == x && pl.getY() == y)
                 {
                     return true;
                 }
@@ -164,13 +146,12 @@ namespace plant_vs_zombie_test
                         System.Threading.Thread.Sleep(1000);
                         return;
                     case "s":
-                        this.addSunflower( new Sunflower(this, Int32.Parse(input[1]), Int32.Parse(input[2])));
+                        this.addPlant( new Sunflower(this, Int32.Parse(input[1]), Int32.Parse(input[2])));
                         break;
                     case "p":
-                        this.addPeaShooter(new PeaShooter(this, Int32.Parse(input[1]), Int32.Parse(input[2])));
+                        this.addPlant(new PeaShooter(this, Int32.Parse(input[1]), Int32.Parse(input[2])));
                         break;
                     default:
-                            Console.WriteLine(peas.Count);
                         break;
                 }
                 this.increment();

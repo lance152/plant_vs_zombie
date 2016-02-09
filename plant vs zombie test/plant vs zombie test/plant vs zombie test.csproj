@@ -58,8 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GardenItem.cs" />
     <Compile Include="Plant.cs" />
+    <Compile Include="GardenItem.cs" />
     <Compile Include="Pea.cs" />
     <Compile Include="PeaShooter.cs" />
     <Compile Include="Garden.cs" />

@@ -6,27 +6,24 @@ using System.Threading.Tasks;
 
 namespace plant_vs_zombie_test
 {
-    internal class Plant
+    internal class Plant:GardenItem
     {
-        public static int COST;
-        protected Garden g;
-        protected int x, y;
+        public static int COST = 0;
 
-        public Plant (Garden g, int x, int y)
+        public Plant(Garden g, int x, int y):base(g,x,y)
         {
-            this.g = g;
-            this.x = x;
-            this.y = y;
+
         }
 
-        public int getCost()
+        public virtual int getCost()
         {
-            return 0; //override in the subclass
+        return COST; //override in the subclass
         }
 
-        public void increment()
+        public new virtual void increment()
         {
-            //override in the subclass
+            return;//override in the subclass
         }
+
     }
 }

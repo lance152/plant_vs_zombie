@@ -9,14 +9,11 @@ namespace plant_vs_zombie_test
     internal class Pea : GardenItem
     {
 
-        public Pea(Garden g, int x, int y)
+        public Pea(Garden g, int x, int y):base(g,x,y)
         {
-            garden = g;
-            this.x = x;
-            this.y = y;
         }
 
-        public void increment()
+        public new void increment()
         {
             x++;
         }

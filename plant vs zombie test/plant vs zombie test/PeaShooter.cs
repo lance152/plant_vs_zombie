@@ -1,29 +1,14 @@
 ﻿namespace plant_vs_zombie_test
 {
-    internal class PeaShooter
+    internal class PeaShooter:Plant
     {
-        public static int COST = 100;
+        public static new int COST = 100;
         public static int SHOT_PERIODICITY = 2;
-        private Garden garden;
         private int positionInShotCycle;
-        private int x, y;
 
-        public PeaShooter(Garden g, int x, int y)
+        public PeaShooter(Garden g, int x, int y):base(g,x,y)
         {
-            garden = g;
-            this.x = x;
-            this.y = y;
             positionInShotCycle = 0;
-        }
-
-        public int getX()
-        {
-            return x;
-        }
-
-        public int getY()
-        {
-            return y;
         }
 
         private void shoot()
@@ -32,13 +17,23 @@
             garden.addPea(p);
         }
 
-        public void increment()
+        public override void increment()
         {
             positionInShotCycle = (positionInShotCycle + 1) % SHOT_PERIODICITY;
-            if(positionInShotCycle == 0)
+            if (positionInShotCycle == 0)
             {
                 this.shoot();
             }
+        }
+
+        public override int getCost()
+        {
+            return COST;
+        }
+
+        public override string ToString()
+        {
+            return "P";
         }
     }
 }
