@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace plant_vs_zombie_test
 {
@@ -13,15 +8,20 @@ namespace plant_vs_zombie_test
         public int GARDEN_LENGTH = 6;
         public int GARDEN_WIDTH = 3;
         public int INITIAL_SUNS = 500;
-        private int suns;
+        public int ZOMBIE_CREATION_PERIODICITY = 3;
+        public int MAX_ZOMBIE = 50000;
+        private int suns,totalzombie;
         private ArrayList plants;
         private ArrayList peas;
+        private ArrayList zombies;
 
         public Garden()
         {
             suns = INITIAL_SUNS;
             plants = new ArrayList();
             peas = new ArrayList();
+            zombies = new ArrayList();
+            totalzombie = 0;
 
         }
 
@@ -49,11 +49,61 @@ namespace plant_vs_zombie_test
             peas.Add(p);
         }
 
-        public void increment()
+        public void addZombie(Zombie z)
         {
+            zombies.Add(z);
+        }
 
+        private void generateZombie()
+        {
+            Random num = new Random();
+            int a = num.Next(ZOMBIE_CREATION_PERIODICITY);
+            if (a == 0 && totalzombie <= MAX_ZOMBIE)
+            {
+                addZombie(new Zombie(this, GARDEN_LENGTH, num.Next(GARDEN_WIDTH)));
+                totalzombie++;
+            }
+        }
+
+        private void removeDeadItems()
+        {
+            ArrayList pealive = new ArrayList();
             foreach (Pea p in peas)
             {
+                if (p.getHealth() > 0)
+                {
+                    pealive.Add(p);
+                }
+            }
+            peas = pealive;
+
+            ArrayList plalive = new ArrayList();
+            foreach (Plant pl in plants)
+            {
+                if (pl.getHealth() > 0)
+                {
+                    plalive.Add(pl);
+                }
+            }
+            plants = plalive;
+
+            ArrayList zalive = new ArrayList();
+            foreach (Zombie z in zombies)
+            {
+                if (z.getHealth() > 0)
+                {
+                    zalive.Add(z);
+                }
+            }
+            zombies = zalive;
+        }
+
+        public void increment()
+        {
+            generateZombie();
+
+            foreach (Pea p in peas)
+            {               
                 p.increment();
             }
 
@@ -61,6 +111,12 @@ namespace plant_vs_zombie_test
             {
                 pl.increment();
             }
+
+            foreach (Zombie z in zombies)
+            {
+                z.increment();
+            }
+            removeDeadItems();
         }
 
         public Plant getPlantAt(int x, int y)
@@ -75,6 +131,18 @@ namespace plant_vs_zombie_test
             return null;
         }
 
+        public Zombie getZombieAt(int x, int y)
+        {
+            foreach (Zombie z in zombies)
+            {
+                if (z.getX() == x && z.getY() == y)
+                {
+                    return z;
+                }
+            }
+            return null;
+        }
+
         public String toString()
         {
             String s = "";
@@ -82,10 +150,13 @@ namespace plant_vs_zombie_test
             {
                 for (int b = 0; b < GARDEN_LENGTH; b++)
                 {
-                    if (hasPlantAt(b,a))
+                    Plant pl = getPlantAt(b, a);
+                    if (pl != null)
                     {
-                        Plant pl = getPlantAt(b, a);
-                        s += pl.ToString();
+                        s += pl;
+                    }else if (hasZombieAt(b, a))
+                    {
+                        s += "Z";
                     }else if (hasPeaAt(b, a))
                     {
                         s += "o";
@@ -105,16 +176,9 @@ namespace plant_vs_zombie_test
             Console.Write(this.toString());
         }
 
-        private bool hasPlantAt(int x, int y)
+        internal bool hasPlantAt(int x, int y)
         {
-            foreach (Plant pl in plants)
-            {
-                if (pl.getX() == x && pl.getY() == y)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return getPlantAt(x, y) != null;
         }
 
         private bool hasPeaAt(int x, int y)
@@ -129,6 +193,27 @@ namespace plant_vs_zombie_test
             return false;
         }
 
+        private bool hasZombieAt(int x,int y)
+        {
+            return getZombieAt(x, y) != null;
+        }
+
+        private bool Win()
+        {
+            return totalzombie == MAX_ZOMBIE;
+        }
+
+        private bool Lost()
+        {
+            foreach (Zombie z in zombies)
+            {
+                if (z.getX() < 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public void play()
         {
             for (;;)
@@ -155,6 +240,18 @@ namespace plant_vs_zombie_test
                         break;
                 }
                 this.increment();
+                if (Win())
+                {
+                    Console.WriteLine("You survived the zombies!");
+                    System.Threading.Thread.Sleep(1000);
+                    return;
+                }
+                if (Lost())
+                {
+                    Console.WriteLine("The zombies ate your brain!");
+                    System.Threading.Thread.Sleep(1000);
+                    return;
+                }
             }
         }
 

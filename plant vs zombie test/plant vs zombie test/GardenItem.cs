@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace plant_vs_zombie_test
+﻿namespace plant_vs_zombie_test
 {
-    internal class GardenItem
+    internal abstract class GardenItem
     {
         protected Garden garden;
-        protected int x, y;
+        protected int x, y,health;
 
         public GardenItem(Garden g,int x, int y)
         {
@@ -17,6 +11,7 @@ namespace plant_vs_zombie_test
             this.x = x;
             this.y = y;
         }
+
         public int getX()
         {
             return x;
@@ -27,9 +22,16 @@ namespace plant_vs_zombie_test
             return y;
         }
 
-        public void increment()
+        public int getHealth()
         {
-            return;//override in the subc
+            return health;
         }
-    }
+
+        public void decreaseHealth(int h)
+        {
+            health -= h;
+        }
+
+        public abstract void increment();
+     }
 }
