@@ -20,10 +20,15 @@ namespace plant_vs_zombie_test
         {
 
             Plant pl = garden.getPlantAt(x - 1, y);
+            Pea p = garden.getPeaAt(x, y);
 
             if(pl != null)
             {
                 pl.decreaseHealth(DAMAGE);
+            }else if(p != null)
+            {
+                p.decreaseHealth(DAMAGE);
+                decreaseHealth(p.getDamage());
             }
             else
             {

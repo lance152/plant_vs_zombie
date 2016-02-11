@@ -12,7 +12,6 @@
 
         public override void increment()
         {
-            x++;
             Zombie z = garden.getZombieAt(x, y);
             if(z != null)
             {
@@ -23,9 +22,14 @@
             {
                 decreaseHealth(DAMAGE);
             }
+            x++;
 
         }
 
+        public int getDamage()
+        {
+            return DAMAGE;
+        }
         public override string ToString()
         {
             return "o";

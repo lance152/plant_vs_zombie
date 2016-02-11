@@ -102,6 +102,7 @@ namespace plant_vs_zombie_test
         {
             generateZombie();
 
+
             foreach (Pea p in peas)
             {               
                 p.increment();
@@ -126,6 +127,18 @@ namespace plant_vs_zombie_test
                 if(pl.getX() == x && pl.getY() == y)
                 {
                     return pl;
+                }
+            }
+            return null;
+        }
+
+        public Pea getPeaAt(int x, int y)
+        {
+            foreach (Pea p in peas)
+            {
+                if (p.getX() == x && p.getY() == y)
+                {
+                    return p;
                 }
             }
             return null;
@@ -183,14 +196,7 @@ namespace plant_vs_zombie_test
 
         private bool hasPeaAt(int x, int y)
         {
-            foreach (Pea p in peas)
-            {
-                if (p.getX() == x && p.getY() == y)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return getPeaAt(x,y) != null;
         }
 
         private bool hasZombieAt(int x,int y)
